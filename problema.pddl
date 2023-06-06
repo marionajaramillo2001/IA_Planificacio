@@ -7,6 +7,7 @@
 
     (:init
         (= (tasques_assginades) 0)
+        (= (suma_hores) 0)
 
         ; programadors
         (= (habilitat p1) 1)
@@ -32,4 +33,6 @@
     (:goal
         (= (tasques_assginades) 2)
     )
+
+    (:metric minimize (suma_hores))
 )
