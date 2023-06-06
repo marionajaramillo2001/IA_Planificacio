@@ -22,7 +22,7 @@
         (dificultat ?t - tasca)
         (duracio_tasca ?t - tasca)
         (duracio_revisio ?r - revisio)
-
+        (noves_assginacions ?p - programador)
         (propera_hora_lliure ?p - programador)
         (hora_tasca_assignada ?t - tasca)
         (hora_fi_tasca ?t - tasca)
@@ -36,6 +36,7 @@
         :parameters (?t - tasca ?p -programador)
         :precondition (and
             (tasca_oberta ?t)
+            (> (noves_assginacions ?p) 0)
             (<= (dificultat ?t) (+ (habilitat ?p) 1))
         )
         :effect (and
@@ -50,6 +51,7 @@
 
             (increase (propera_hora_lliure ?p) (duracio_tasca ?t))
             (increase (suma_hores) (duracio_tasca ?t))
+            (decrease (noves_assginacions ?p) 1)
             
             (assign (hora_fi_tasca ?t) (propera_hora_lliure ?p))
         )
@@ -75,6 +77,7 @@
             (revisio_oberta ?r ?p1)
             (tasca_revisio ?t ?r)
             (!= ?p ?p1)
+            (> (noves_assginacions ?p) 0)
             (<= (dificultat ?t) (+ (habilitat ?p) 1))
             (>= (propera_hora_lliure ?p) (hora_fi_tasca ?t))
         )
@@ -85,6 +88,7 @@
             (increase (propera_hora_lliure ?p) (duracio_revisio ?r))
             (assign (hora_fi_revisio ?r) (propera_hora_lliure ?p))
             (increase (suma_hores) (duracio_revisio ?r))
+            (decrease (noves_assginacions ?p) 1)
             (increase (tasques_assginades) 1)
         )
     )

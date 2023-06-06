@@ -16,6 +16,8 @@
         (= (qualitat p2) 1)
         (= (propera_hora_lliure p1) 0)
         (= (propera_hora_lliure p2) 0)
+        (= (noves_assginacions p1) 2)
+        (= (noves_assginacions p2) 2)
 
         ; tasques
         (= (dificultat t1) 3)
