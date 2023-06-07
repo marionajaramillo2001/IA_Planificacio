@@ -20,7 +20,7 @@
         (= (noves_assginacions p2) 2)
 
         ; tasques
-        (= (dificultat t1) 3)
+        (= (dificultat t1) 2)
         (= (dificultat t2) 2)
         (= (duracio_tasca t1) 2)
         (= (duracio_tasca t2) 4)

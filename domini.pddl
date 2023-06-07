@@ -9,6 +9,7 @@
     (:predicates
         (tasca_oberta ?t - tasca)
         (revisio_oberta ?r - revisio ?p - programador)
+        (revisio_preparada ?r - revisio)
         (tasca_assignada ?t - tasca ?p - programador)
         (revisio_assignada ?r - revisio ?p - programador)
         (revisio_tancada ?r - revisio)
@@ -76,22 +77,24 @@
         :precondition (and
             (tasca_assignada ?t ?p)
             (tasca_revisio ?t ?r)
-            (not (revisio_oberta ?r ?p))
+            (not (revisio_preparada ?r))
+            (not (revisio_tancada ?r))
         )
         :effect (and
             (assign (duracio_revisio ?r) (qualitat ?p))
             (revisio_oberta ?r ?p)
+            (revisio_preparada ?r)
         )
     )
 
-    (:action assignar_revisio_1
-        :parameters (?r - revisio ?t - tasca ?p - programador ?p1 - programador)
-        :precondition (and 
+    (:action assignar_revisio_1_hora
+        :parameters (?r - revisio ?t - tasca ?p - programador)
+        :precondition (and
+            (revisio_preparada ?r)
             (not (revisio_tancada ?r))
             (= (duracio_revisio ?r) 1)
-            (revisio_oberta ?r ?p1)
+            (not (revisio_oberta ?r ?p))
             (tasca_revisio ?t ?r)
-            (!= ?p ?p1)
             (> (noves_assginacions ?p) 0)
             (<= (dificultat ?t) (+ (habilitat ?p) 1))
             (>= (propera_hora_lliure ?p) (hora_fi_tasca ?t))
@@ -108,14 +111,14 @@
         )
     )
 
-    (:action assignar_revisio_2
-        :parameters (?r - revisio ?t - tasca ?p - programador ?p1 - programador)
-        :precondition (and 
+    (:action assignar_revisio_2_hores
+        :parameters (?r - revisio ?t - tasca ?p - programador)
+        :precondition (and
+            (revisio_preparada ?r)
             (not (revisio_tancada ?r))
             (= (duracio_revisio ?r) 2)
-            (revisio_oberta ?r ?p1)
+            (not (revisio_oberta ?r ?p))
             (tasca_revisio ?t ?r)
-            (!= ?p ?p1)
             (> (noves_assginacions ?p) 0)
             (<= (dificultat ?t) (+ (habilitat ?p) 1))
             (>= (propera_hora_lliure ?p) (hora_fi_tasca ?t))
