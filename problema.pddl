@@ -2,7 +2,6 @@
     (:objects 
         p1 p2 - programador
         t1 t2 - tasca
-        r1 r2 - revisio
     )
 
     (:init
@@ -24,9 +23,6 @@
         (= (dificultat t2) 2)
         (= (duracio_tasca t1) 2)
         (= (duracio_tasca t2) 4)
-
-        (tasca_revisio t1 r1)
-        (tasca_revisio t2 r2)
 
         (tasca_oberta t1)
         (tasca_oberta t2)
