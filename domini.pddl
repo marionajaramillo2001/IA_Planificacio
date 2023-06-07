@@ -1,6 +1,6 @@
 (define (domain planificador)
 
-    (:requirements :adl :strips :fluents :typing :conditional-effects)
+    (:requirements :adl :strips :fluents :typing)
 
     (:types
         programador tasca revisio - object
@@ -32,25 +32,39 @@
         (suma_hores)
     )
 
-    (:action assignar_tasca
+    (:action assignar_tasca_baixa_habilitat
         :parameters (?t - tasca ?p -programador)
         :precondition (and
             (tasca_oberta ?t)
             (> (noves_assginacions ?p) 0)
-            (<= (dificultat ?t) (+ (habilitat ?p) 1))
+            (= (dificultat ?t) (+ (habilitat ?p) 1))
         )
         :effect (and
             (not (tasca_oberta ?t))
             (tasca_assignada ?t ?p)
             (assign (hora_tasca_assignada ?t) (propera_hora_lliure ?p))
 
-            (when (= (dificultat ?t) (+ (habilitat ?p) 1)) (and
-                (increase (propera_hora_lliure ?p) 2)
-                (increase (suma_hores) 2)
-            ))
+            (increase (propera_hora_lliure ?p) (+ (duracio_tasca ?t) 2))
+            (increase (suma_hores) 2)
+            (decrease (noves_assginacions ?p) 1)
+            
+            (assign (hora_fi_tasca ?t) (propera_hora_lliure ?p))
+        )
+    )
+
+    (:action assignar_tasca
+        :parameters (?t - tasca ?p -programador)
+        :precondition (and
+            (tasca_oberta ?t)
+            (> (noves_assginacions ?p) 0)
+            (<= (dificultat ?t) (habilitat ?p))
+        )
+        :effect (and
+            (not (tasca_oberta ?t))
+            (tasca_assignada ?t ?p)
+            (assign (hora_tasca_assignada ?t) (propera_hora_lliure ?p))
 
             (increase (propera_hora_lliure ?p) (duracio_tasca ?t))
-            (increase (suma_hores) (duracio_tasca ?t))
             (decrease (noves_assginacions ?p) 1)
             
             (assign (hora_fi_tasca ?t) (propera_hora_lliure ?p))
@@ -70,10 +84,11 @@
         )
     )
 
-    (:action assignar_revisio
+    (:action assignar_revisio_1
         :parameters (?r - revisio ?t - tasca ?p - programador ?p1 - programador)
         :precondition (and 
             (not (revisio_tancada ?r))
+            (= (duracio_revisio ?r) 1)
             (revisio_oberta ?r ?p1)
             (tasca_revisio ?t ?r)
             (!= ?p ?p1)
@@ -87,7 +102,31 @@
             (assign (hora_revisio_assignada ?r) (propera_hora_lliure ?p))
             (increase (propera_hora_lliure ?p) (duracio_revisio ?r))
             (assign (hora_fi_revisio ?r) (propera_hora_lliure ?p))
-            (increase (suma_hores) (duracio_revisio ?r))
+            (increase (suma_hores) 1)
+            (decrease (noves_assginacions ?p) 1)
+            (increase (tasques_assginades) 1)
+        )
+    )
+
+    (:action assignar_revisio_2
+        :parameters (?r - revisio ?t - tasca ?p - programador ?p1 - programador)
+        :precondition (and 
+            (not (revisio_tancada ?r))
+            (= (duracio_revisio ?r) 2)
+            (revisio_oberta ?r ?p1)
+            (tasca_revisio ?t ?r)
+            (!= ?p ?p1)
+            (> (noves_assginacions ?p) 0)
+            (<= (dificultat ?t) (+ (habilitat ?p) 1))
+            (>= (propera_hora_lliure ?p) (hora_fi_tasca ?t))
+        )
+        :effect (and
+            (revisio_tancada ?r)
+            (revisio_assignada ?r ?p)
+            (assign (hora_revisio_assignada ?r) (propera_hora_lliure ?p))
+            (increase (propera_hora_lliure ?p) (duracio_revisio ?r))
+            (assign (hora_fi_revisio ?r) (propera_hora_lliure ?p))
+            (increase (suma_hores) 2)
             (decrease (noves_assginacions ?p) 1)
             (increase (tasques_assginades) 1)
         )
