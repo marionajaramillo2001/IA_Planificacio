@@ -21,11 +21,12 @@ def get_objects(programadors, tasques):
     objects += ')\n'
     return objects
 
-def get_init(programadors, tasques):
-    init = '(:init\n' +\
-            '    (= (tasques_assginades) 0)\n' +\
-            '    (= (suma_hores) 0)\n' +\
-            '    (= (programadors) 0)\n'
+def get_init(programadors, tasques, extension):
+    init = '(:init\n'
+    init += '    (= (tasques_assginades) 0)\n'
+    if (extension >=2):
+        init += '    (= (suma_hores) 0)\n'
+    init += '    (= (programadors) 0)\n'
     # Add habilitats
     for i in range(programadors):
         init += '    (= (habilitat p' + str(i) + ') ' + str(random.randint(1, 2)) + ')\n'
@@ -35,8 +36,9 @@ def get_init(programadors, tasques):
         init += '    (= (qualitat p' + str(i) + ') ' + str(random.randint(1, 3)) + ')\n'
     
     # Add noves_assginacions
-    for i in range(programadors):
-        init += '    (= (noves_assginacions p' + str(i) + ') 2)\n'
+    if (extension >= 3):
+        for i in range(programadors):
+            init += '    (= (noves_assginacions p' + str(i) + ') 2)\n'
         
     # Add dificultats
     for i in range(tasques):
@@ -56,13 +58,17 @@ def get_init(programadors, tasques):
     init += ')\n'
     return init, suma_hores
 
-def write_file(programadors, tasques, problem):
+def write_file(programadors, tasques, problem, extension):
 
-    header = '(define (problem ' + problem + ') (:domain planificador)\n'
+    header = '(define (problem ' + problem + ') (:domain planificador' + str(extension) + ')\n'
     objects = get_objects(programadors, tasques)
-    init, suma_hores = get_init(programadors, tasques)
+    init, suma_hores = get_init(programadors, tasques, extension)
     goal = '(:goal\n    (= (tasques_assginades) ' + str(tasques) + ')\n)\n'
-    metric = '(:metric minimize (+ (* ' + str(programadors) + ' (suma_hores)) (* ' + str(suma_hores) + ' (programadors))))\n'
+    metric = ''
+    if (extension == 4):
+        metric = '(:metric minimize (+ (* ' + str(programadors) + ' (suma_hores)) (* ' + str(suma_hores) + ' (programadors))))\n'
+    elif (extension >= 2):
+        metric = '(:metric minimize (suma_hores))\n'
     f = open(problem + ".pddl", "w")
     f.write(header + objects + init + goal + metric + ')')
     f.close()
@@ -82,6 +88,9 @@ def main():
     # Add an argument to the name of the problem
     parser.add_argument('--problem', type=str, 
         help='Name of the problem', required=True)
+    # Add an extension level of the problem
+    parser.add_argument('--extension', type=int, 
+        help='Extension level of the problem', default=4)
 
     # Parse the command-line arguments
     args = parser.parse_args()
@@ -91,6 +100,7 @@ def main():
     tasques = args.tasques
     seed = args.seed
     problem = args.problem
+    extension = args.extension
     
     # Set the seed for random cases
     random.seed(seed)
@@ -99,8 +109,11 @@ def main():
         raise Error('The number of programmers must be greater than 0')
     if (tasques < 1):
         raise Error('The number of tasks must be greater than 0')
+    if (extension < 1 or extension > 4):
+        raise Error('The extension level must be between 1 and 4')
 
-    write_file(programadors, tasques, problem)
+
+    write_file(programadors, tasques, problem, extension)
 
 if __name__ == '__main__':
     main()
