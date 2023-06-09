@@ -23,7 +23,7 @@ def get_objects(programadors, tasques):
 
 def get_init(programadors, tasques, extension):
     init = '(:init\n'
-    init += '    (= (tasques_assginades) 0)\n'
+    init += '    (= (tasques_assignades) 0)\n'
     if (extension >= 2):
         init += '    (= (suma_hores) 0)\n'
     if (extension == 4):
@@ -64,7 +64,7 @@ def write_file(programadors, tasques, problem, extension):
     header = '(define (problem ' + problem + ') (:domain planificador' + str(extension) + ')\n'
     objects = get_objects(programadors, tasques)
     init, suma_hores = get_init(programadors, tasques, extension)
-    goal = '(:goal\n    (= (tasques_assginades) ' + str(tasques) + ')\n)\n'
+    goal = '(:goal\n    (= (tasques_assignades) ' + str(tasques) + ')\n)\n'
     metric = ''
     if (extension == 4):
         metric = '(:metric minimize (+ (* ' + str(programadors) + ' (suma_hores)) (* ' + str(suma_hores) + ' (programadors))))\n'
