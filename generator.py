@@ -109,8 +109,8 @@ def main():
         raise Error('The number of programmers must be greater than 0')
     if (tasques < 1):
         raise Error('The number of tasks must be greater than 0')
-    if (extension < 1 or extension > 4):
-        raise Error('The extension level must be between 1 and 4')
+    if (extension < 0 or extension > 4):
+        raise Error('The extension level must be between 0 and 4')
 
 
     write_file(programadors, tasques, problem, extension)
