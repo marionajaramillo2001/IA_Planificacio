@@ -5,7 +5,7 @@
     )
 
     (:init
-        (= (tasques_assginades) 0)
+        (= (tasques_assignades) 0)
         (= (suma_hores) 0)
         (= (programadors) 0)
 
@@ -29,7 +29,7 @@
     )
 
     (:goal
-        (= (tasques_assginades) 2)
+        (= (tasques_assignades) 2)
     )
 
     ; Mètrica: programadors_totals * suma_hores + suma_hores_tasques * programadors
