@@ -19,7 +19,7 @@
         (dificultat ?t - tasca)
         (duracio_tasca ?t - tasca)
         (duracio_revisio ?t - tasca)
-        (tasques_assginades)
+        (tasques_assignades)
     )
 
     (:action assignar_tasca
@@ -46,7 +46,7 @@
         :effect (and
             (not (revisio_oberta ?t))
             (revisio_assignada ?t ?p)
-            (increase (tasques_assginades) 1)
+            (increase (tasques_assignades) 1)
         )
     )
 )
