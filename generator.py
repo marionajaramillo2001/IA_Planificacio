@@ -24,9 +24,10 @@ def get_objects(programadors, tasques):
 def get_init(programadors, tasques, extension):
     init = '(:init\n'
     init += '    (= (tasques_assginades) 0)\n'
-    if (extension >=2):
+    if (extension >= 2):
         init += '    (= (suma_hores) 0)\n'
-    init += '    (= (programadors) 0)\n'
+    if (extension == 4):
+        init += '    (= (programadors) 0)\n'
     # Add habilitats
     for i in range(programadors):
         init += '    (= (habilitat p' + str(i) + ') ' + str(random.randint(1, 2)) + ')\n'
