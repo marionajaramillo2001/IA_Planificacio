@@ -16,7 +16,7 @@
         (qualitat ?p - programador)
         (dificultat ?t - tasca)
         (duracio_tasca ?t - tasca)
-        (tasques_assginades)
+        (tasques_assignades)
     )
 
     (:action assignar_tasca
@@ -28,7 +28,7 @@
         :effect (and
             (not (tasca_oberta ?t))
             (tasca_assignada ?t ?p)
-            (increase (tasques_assginades) 1)
+            (increase (tasques_assignades) 1)
         )
     )
 )
