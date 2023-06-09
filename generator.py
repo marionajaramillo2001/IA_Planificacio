@@ -44,7 +44,11 @@ def get_init(programadors, tasques):
     
     # Add duracions
     for i in range(tasques):
-        init += '    (= (duracio_tasca t' + str(i) + ') ' + str(random.randint(1, 3)) + ')\n'
+        init += '    (= (duracio_tasca t' + str(i) + ') ' + str(random.randint(1, 8)) + ')\n'
+        
+    # Add tasques obertes
+    for i in range(tasques):
+        init += '    (tasca_oberta t' + str(i) + ')\n'
 
     init += ')\n'
     return init
@@ -71,7 +75,7 @@ def main():
         help='Number of tasques', required=True)
     # Add an argument to the seed for random generator
     parser.add_argument('--seed', type=int, 
-        help='Seed of the graph', default=0)
+        help='Seed of the random generator', default=1234)
     # Add an argument to the name of the problem
     parser.add_argument('--problem', type=str, 
         help='Name of the problem', required=True)
