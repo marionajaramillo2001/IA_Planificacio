@@ -96,9 +96,9 @@ def main():
     random.seed(seed)
 
     if (programadors < 1):
-        raise Error('The number of rovers must be greater than 0')
+        raise Error('The number of programmers must be greater than 0')
     if (tasques < 1):
-        raise Error('The number of petittions must be greater than 0')
+        raise Error('The number of tasks must be greater than 0')
 
     write_file(programadors, tasques, problem)
 

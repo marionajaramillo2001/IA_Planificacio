@@ -1,4 +1,4 @@
-(define (problem exemple) (:domain planificador)
+(define (problem exemple) (:domain planificador4)
     (:objects 
         p1 p2 - programador
         t1 t2 - tasca
