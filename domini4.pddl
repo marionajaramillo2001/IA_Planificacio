@@ -20,7 +20,7 @@
         (dificultat ?t - tasca)
         (duracio_tasca ?t - tasca)
         (duracio_revisio ?t - tasca)
-        (tasques_assginades)
+        (tasques_assignades)
         (suma_hores)
         (programadors)
     )
@@ -72,7 +72,7 @@
 
             (increase (suma_hores) 1)
             (decrease (noves_assginacions ?p) 1)
-            (increase (tasques_assginades) 1)
+            (increase (tasques_assignades) 1)
         )
     )
 )
