@@ -43,23 +43,26 @@ def get_init(programadors, tasques):
         init += '    (= (dificultat t' + str(i) + ') ' + str(random.randint(1, 3)) + ')\n'
     
     # Add duracions
+    suma_hores = 0
     for i in range(tasques):
-        init += '    (= (duracio_tasca t' + str(i) + ') ' + str(random.randint(1, 8)) + ')\n'
+        durada_i = random.randint(1, 8)
+        suma_hores += durada_i
+        init += '    (= (duracio_tasca t' + str(i) + ') ' + str(durada_i) + ')\n'
         
     # Add tasques obertes
     for i in range(tasques):
         init += '    (tasca_oberta t' + str(i) + ')\n'
 
     init += ')\n'
-    return init
+    return init, suma_hores
 
 def write_file(programadors, tasques, problem):
 
     header = '(define (problem ' + problem + ') (:domain planificador)\n'
     objects = get_objects(programadors, tasques)
-    init = get_init(programadors, tasques)
+    init, suma_hores = get_init(programadors, tasques)
     goal = '(:goal\n    (= (tasques_assginades) ' + str(tasques) + ')\n)\n'
-    metric = '(:metric minimize (+ (* 2 (suma_hores)) (* 6 (programadors))))\n'
+    metric = '(:metric minimize (+ (* ' + str(programadors) + ' (suma_hores)) (* ' + str(suma_hores) + ' (programadors))))\n'
     f = open(problem + ".pddl", "w")
     f.write(header + objects + init + goal + metric + ')')
     f.close()
