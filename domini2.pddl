@@ -19,7 +19,7 @@
         (dificultat ?t - tasca)
         (duracio_tasca ?t - tasca)
         (duracio_revisio ?t - tasca)
-        (tasques_assginades)
+        (tasques_assignades)
         (suma_hores)
     )
 
@@ -58,7 +58,7 @@
             )
 
             (increase (suma_hores) 1)
-            (increase (tasques_assginades) 1)
+            (increase (tasques_assignades) 1)
         )
     )
 )
