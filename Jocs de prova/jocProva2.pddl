@@ -1,0 +1,32 @@
+(define (problem jocProva2) (:domain planificador1)
+(:objects
+    p0 p1 p2 p3 - programador
+    t0 t1 t2 t3 - tasca
+)
+(:init
+    (= (tasques_assignades) 0)
+    (= (habilitat p0) 2)
+    (= (habilitat p1) 1)
+    (= (habilitat p2) 1)
+    (= (habilitat p3) 1)
+    (= (qualitat p0) 3)
+    (= (qualitat p1) 1)
+    (= (qualitat p2) 3)
+    (= (qualitat p3) 3)
+    (= (dificultat t0) 1)
+    (= (dificultat t1) 1)
+    (= (dificultat t2) 2)
+    (= (dificultat t3) 1)
+    (= (duracio_tasca t0) 1)
+    (= (duracio_tasca t1) 1)
+    (= (duracio_tasca t2) 1)
+    (= (duracio_tasca t3) 6)
+    (tasca_oberta t0)
+    (tasca_oberta t1)
+    (tasca_oberta t2)
+    (tasca_oberta t3)
+)
+(:goal
+    (= (tasques_assignades) 4)
+)
+)
